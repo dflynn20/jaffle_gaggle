@@ -1,0 +1,24 @@
+Table event {
+  event_id string PK
+  user_id int
+  event_name string
+  timestamp datetime
+}
+
+Table gaggle {
+  id int PK
+  name string
+  created_at datetime
+}
+
+Table user {
+  id int PK
+  name string
+  email string
+  gaggle_id int
+  created_at datetime
+}
+
+Ref: event.user_id > user.id
+
+Ref: user.gaggle_id > gaggle.id

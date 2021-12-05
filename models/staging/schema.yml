@@ -1,0 +1,34 @@
+version: 2
+
+models:
+  - name: stg_events
+    columns:
+      - name: event_id
+        tests:
+          - unique
+          - not_null
+      - name: event_name
+        tests:
+        - accepted_values:
+            values: ['recipe_viewed', 'order_placed', 'recipe_favorited']
+  
+  - name: stg_users
+    columns:
+      - name: user_id
+        tests:
+          - unique
+          - not_null
+      - name: email
+        tests:
+            - unique
+            - not_null
+      - name: gaggle_id
+        tests:
+            - not_null
+
+  - name: stg_gaggles
+    columns:
+      - name: gaggle_id
+        tests:
+          - unique
+          - not_null
