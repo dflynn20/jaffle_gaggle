@@ -2,4 +2,58 @@ version: 2
 
 models:
   - name: jafflegaggle_contacts
-    description: This table has basic information about a customer, as well as some derived facts based on a customer's orders
+    description: >
+      This table has basic information about a contact, as well as some derived facts of a contact's 
+      activity with the JaffleGaggle platform
+    columns:  
+      - name: user_id
+        description: Primary key of the table
+        tests:
+          - unique
+          - not_null
+      - name: email
+        tests:
+            - unique
+            - not_null
+      - name: corporate_domain
+        description: Extracted email domain from the user's email, only if not a personal email
+      - name: gaggle_id
+        description: Foreign key to gaggles
+
+  - name: jafflegaggle_corporate_accounts
+    description: > 
+      This table has basic information about an account, including certain metrics about their users.
+      
+      For suffixes:
+        - '*_corporate' corresponds to users that have the corporate email for their JaffleGaggle
+        account
+        - '*_associated' means ALL of the users that are in gaggles with associated with this account,
+        including those users that have a corporate domain
+    
+    columns:  
+      - name: corporate_email
+        description: Primary key of the table. Happens after the merging logic
+        tests:
+          - unique
+          - not_null
+      - name: first_user_id
+        description: Foreign key to the first corporate user associated with this account
+      - name: most_active_user_id
+        description: Foreign key to the corporate user associated with this account with the most events
+      - name: most_orders_user_id
+        description: Foreign key to the corporate user associated with this account with the most orders
+
+  - name: jafflegaggle_facts
+    description: > 
+      This table has basic information about a gaggle, including certain metrics about their users.
+
+      For suffixes:
+        - '*_corporate' corresponds to users that have the corporate email for their JaffleGaggle
+        - Without this suffix, this means ALL of the users that belong to this gaggle, including those 
+        users that have a corporate domain
+    columns:  
+      - name: gaggle_id
+        description: Primary key of the table. Happens after merging
+        tests:
+          - unique
+          - not_null

@@ -1,17 +1,17 @@
-Table event {
+Table raw_event {
   event_id string PK
   user_id int
   event_name string
   timestamp datetime
 }
 
-Table gaggle {
+Table raw_gaggle {
   id int PK
   name string
   created_at datetime
 }
 
-Table user {
+Table raw_user {
   id int PK
   name string
   email string
@@ -19,6 +19,16 @@ Table user {
   created_at datetime
 }
 
-Ref: event.user_id > user.id
+Table merged_company_domain {
+  old_domain string PK
+  new_domain string
+}
 
-Ref: user.gaggle_id > gaggle.id
+Table merged_user {
+  old_email string PK
+  new_email string
+}
+
+Ref: raw_event.user_id > raw_user.id
+
+Ref: raw_user.gaggle_id > raw_gaggle.id

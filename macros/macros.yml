@@ -1,0 +1,10 @@
+version: 2
+
+macros:
+  - name: extract_email_domain
+    description: Strips the email domain out of a user's email
+    arguments:
+      - name: email
+        type: string
+  - name: get_personal_emails
+    description: Returns personal email domains that you want to remove from sales consideration
