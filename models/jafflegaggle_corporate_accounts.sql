@@ -8,9 +8,13 @@ with corporate_gaggles as (
 corporate_power_users as (
     select 
         corporate_email,
-        get(array_agg(user_id) within group (order by created_at asc), 0)::int as first_user_id,
-        get(array_agg(user_id) within group (order by number_of_events desc), 0)::int as most_active_user_id,
-        get(array_agg(user_id) within group (order by number_of_orders desc), 0)::int as most_orders_user_id
+        -- get(array_agg(user_id) within group (order by created_at asc), 0)::int as first_user_id,
+        -- get(array_agg(user_id) within group (order by number_of_events desc), 0)::int as most_active_user_id,
+        -- get(array_agg(user_id) within group (order by number_of_orders desc), 0)::int as most_orders_user_id
+        
+        array_agg(user_id order by created_at asc)[offset(0)] as first_user_id,
+        array_agg(user_id order by number_of_events desc)[offset(0)] as most_active_user_id,
+        array_agg(user_id order by number_of_orders desc)[offset(0)] as most_orders_user_id
     from {{ ref('jafflegaggle_contacts') }}
     where corporate_email is not null
     group by 1

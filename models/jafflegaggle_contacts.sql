@@ -57,7 +57,7 @@ final_all_users as (
         order_events.first_order,
         order_events.most_recent_order,
         order_events.number_of_orders,
-        iff(users.email_domain in {{ personal_emails }}, null, users.email_domain)
+        if(users.email_domain in {{ personal_emails }}, null, users.email_domain)
             as corporate_email
 
     from users
@@ -80,8 +80,11 @@ final_merged_users as (
             explicitly cast the result of a get from an array_agg otherwise you will end up with the
             quotation marks
         #}
-        get(array_agg(fau.user_name) within group (order by fau.created_at desc), 0)::string as user_name,
+        -- get(array_agg(fau.user_name) within group (order by fau.created_at desc), 0)::string as user_name,
         
+        ARRAY_AGG(fau.user_name ORDER BY fau.created_at desc)[OFFSET(0)] as user_name,
+
+
         {#- 
             Note that a user can be associated with multiple gaggles depending on the merge,
             but the max() below explicitly will take only the later gaggle as associated.
