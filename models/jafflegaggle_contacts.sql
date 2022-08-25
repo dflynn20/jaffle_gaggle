@@ -97,7 +97,8 @@ final_merged_users as (
         sum(fau.number_of_events) as number_of_events,
         min(fau.first_order) as first_order,
         min(fau.most_recent_order) as most_recent_order,
-        sum(fau.number_of_orders) as number_of_orders
+        sum(fau.number_of_orders) as number_of_orders,
+        substr(fau.created_at, 1, 10) as user_cohort
         
     from final_all_users fau
     left join {{ ref('merged_user') }} mu on fau.email = mu.old_email
