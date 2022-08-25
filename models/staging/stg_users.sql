@@ -15,7 +15,7 @@ renamed as (
         name as user_name,
         email,
         
-        {{ extract_email_domain('email') }} AS email_domain,
+        {{ extract_email_domain_bq('email') }} AS email_domain,
         
         gaggle_id, 
         created_at
