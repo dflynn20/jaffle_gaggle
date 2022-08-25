@@ -89,7 +89,7 @@ final_merged_users as (
             Note that a user can be associated with multiple gaggles depending on the merge,
             but the max() below explicitly will take only the later gaggle as associated.
         #}
-        max(fau.gaggle_id) as gaggle_id,
+        max(fau.gaggle_id) as gaggle_id, 
 
         min(fau.created_at) as created_at,
         min(fau.first_event) as first_event,
